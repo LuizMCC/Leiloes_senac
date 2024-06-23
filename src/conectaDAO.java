@@ -11,7 +11,7 @@ public class conectaDAO {
         
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/uc11","root","sega32XL");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/uc11?useSSL=false","root","sega32XL");
             
         } catch (ClassNotFoundException | SQLException erro){
             JOptionPane.showMessageDialog(null, "Erro ConectaDAO: " + erro.getMessage());

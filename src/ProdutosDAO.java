@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.Connection;
 import javax.swing.JOptionPane;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 
@@ -24,9 +25,25 @@ public class ProdutosDAO {
     
     public void cadastrarProduto (ProdutosDTO produto){
         
+        conn = new conectaDAO().connectDB();
         
-        //conn = new conectaDAO().connectDB();
-        
+        try{
+            prep = conn.prepareStatement("insert into produtos(nome, valor, status) values(?,?,?)");
+            prep.setString(1, produto.getNome());
+            prep.setString(2, String.valueOf(produto.getValor()));
+            prep.setString(3, produto.getStatus());
+            
+            int status = prep.executeUpdate();
+            
+            if(status == 1){
+                JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso");
+            } else {
+                JOptionPane.showMessageDialog(null, "Erro ao cadastrar produto\ncodigo do erro: " + status);
+            }
+            
+        } catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Erro ao cadastrar produto: " + e.getErrorCode());
+        }
         
     }
     
