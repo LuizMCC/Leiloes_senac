@@ -70,8 +70,45 @@ public class ProdutosDAO {
         return listagem;
     }
     
+    public void venderProduto(int ID){
+        conn = new conectaDAO().connectDB();
+        try{
+            prep = conn.prepareStatement("update produtos set status = 'Vendido' where id = ?");
+            prep.setString(1, String.valueOf(ID));
+            
+            int status = prep.executeUpdate();
+            
+            if(status == 1){
+                JOptionPane.showMessageDialog(null, "Produto vendido com sucesso");
+            } else {
+                JOptionPane.showMessageDialog(null, "Erro ao vender produto\ncodigo do erro: " + status);
+            }
+            
+        } catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Erro ao vender produto: " + e.getErrorCode());
+        }
+    }
     
-    
+    public ProdutosDTO pegarProduto(int ID){
+        conn = new conectaDAO().connectDB();
+        ProdutosDTO produto = new ProdutosDTO();
+        try{
+            prep = conn.prepareStatement("select * from produtos where id = ?");
+            prep.setString(1, String.valueOf(ID));
+            
+            resultset = prep.executeQuery();
+            resultset.next();
+            
+            produto.setId(resultset.getInt("id"));
+            produto.setNome(resultset.getString("nome"));
+            produto.setStatus(resultset.getString("status"));
+            produto.setValor(resultset.getInt("valor"));
+            
+        } catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Erro ao pegar produto: " + e.getErrorCode());
+        }
         
+        return produto;
+    }
 }
 
