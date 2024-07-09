@@ -74,7 +74,7 @@ public class ProdutosDAO {
         conn = new conectaDAO().connectDB();
         listagem = new ArrayList<>();
         try{
-            prep = conn.prepareStatement("select * from produtos where status = Vendido");
+            prep = conn.prepareStatement("select * from produtos where status = 'Vendido'");
             resultset = prep.executeQuery();
             
             while(resultset.next()){
